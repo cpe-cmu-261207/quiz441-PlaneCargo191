@@ -22,16 +22,34 @@ app.post('/login',
 
     const { username, password } = req.body
     // Use username and password to create token.
-
-    return res.status(200).json({
-      message: 'Login succesfully',
-    })
+    var token = jwt.sign(username, password)
+    if() {
+      return res.status(200).json({
+        message: 'Login succesfully',
+        token: token
+      })
+    } else {
+      return res.status(400).json({
+        message: 'Invalid username or password'
+      })
+    }
   })
 
 app.post('/register',
   (req, res) => {
 
     const { username, password, firstname, lastname, balance } = req.body
+
+    if(username != ) {
+      
+      return res.status(200).json({
+        message: 'Register successful'
+      })
+    } else {
+      return res.status(400).json({
+        message: 'Username is already in used'
+      })
+    }
   })
 
 app.get('/balance',
@@ -39,20 +57,30 @@ app.get('/balance',
     const token = req.query.token as string
     try {
       const { username } = jwt.verify(token, SECRET) as JWTPayload
-  
+      return res.status(200).json({
+        name: username
+      })
     }
     catch (e) {
       //response in case of invalid token
+      return res.status(401).json({
+        message: 'Invalid token'
+      })
     }
   })
 
 app.post('/deposit',
   body('amount').isInt({ min: 1 }),
   (req, res) => {
-
+    const token = req.query.token as string
     //Is amount <= 0 ?
-    if (!validationResult(req).isEmpty())
-      return res.status(400).json({ message: "Invalid data" })
+    if (!validationResult(req).isEmpty()) {
+      return res.status(400).json({ 
+        message: "Invalid data" 
+      })
+    } else if(token  {
+
+    }
   })
 
 app.post('/withdraw',
@@ -60,9 +88,8 @@ app.post('/withdraw',
   })
 
 app.delete('/reset', (req, res) => {
-
   //code your database reset here
-  
+  const deleteInfo = 
   return res.status(200).json({
     message: 'Reset database successfully'
   })
